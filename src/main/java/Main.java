@@ -48,7 +48,7 @@ class Shell {
             commands.get(command).accept(argument);
         }
         else {
-            System.out.println(command + ": command not found.");
+            System.out.println(command + ": command not found");
         }
         argument = "";
     }
