@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -58,11 +59,25 @@ class Shell {
     }
 
     private void type(String argument) {
+        String path = System.getenv("PATH");
+        String[] pathDirs = path.split(":");
+        boolean found = false;
+
         if (commands.containsKey(argument)) {
             System.out.println(argument + " is a shell builtin");
         }
         else {
-            System.out.println(argument + ": not found");
+            for (int i = 0; i < pathDirs.length; i++) {
+                File file = new File(pathDirs[i], argument);
+                if (file.exists() && file.canExecute()) {
+                    System.out.println(argument + " is " + file.getAbsolutePath());
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                System.out.println(argument + ": not found");
+            }
         }
     }
 }
